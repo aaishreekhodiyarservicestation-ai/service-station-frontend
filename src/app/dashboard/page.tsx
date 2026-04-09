@@ -215,8 +215,8 @@ export default function DashboardPage() {
             </div>
           </Link>
 
-          <button
-            onClick={() => window.location.href = '/dashboard'}
+          <Link
+            href="/vehicles"
             className="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
           >
             <div className="bg-green-600 p-3 rounded-lg">
@@ -238,7 +238,7 @@ export default function DashboardPage() {
               <p className="font-semibold text-gray-900">Export</p>
               <p className="text-sm text-gray-600">Download reports</p>
             </div>
-          </button>
+          </Link>
         </div>
       </div>
 

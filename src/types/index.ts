@@ -1,8 +1,8 @@
 export type UserRole = 'admin' | 'manager' | 'staff';
 
-export type VehicleType = 'bike' | 'car' | 'truck' | 'other';
+export type VehicleType = 'gear' | 'non_gear';
 
-export type VehicleStatus = 'in_service' | 'delivered' | 'pending';
+export type VehicleStatus = 'pending' | 'completed' | 'delivered';
 
 export type DocumentType = 'rc' | 'id_proof_owner' | 'id_proof_person';
 
@@ -12,7 +12,9 @@ export interface User {
   email: string;
   fullName: string;
   role: UserRole;
-  stationId: Station | string;
+  permissions: string[];
+  isManagement: boolean;
+  stationId?: Station | string | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -34,8 +36,8 @@ export interface Owner {
   name: string;
   address: string;
   mobile: string;
-  idProofType: string;
-  idProofNumber: string;
+  idProofType?: string;
+  idProofNumber?: string;
 }
 
 export interface Person {
@@ -43,8 +45,8 @@ export interface Person {
   name: string;
   address: string;
   mobile: string;
-  idProofType: string;
-  idProofNumber: string;
+  idProofType?: string;
+  idProofNumber?: string;
   relationToOwner: string;
 }
 
@@ -55,14 +57,25 @@ export interface VehicleDocument {
   uploadedAt: string;
 }
 
+export interface Payment {
+  _id: string;
+  amount: number;
+  description: string;
+  createdAt: string;
+  createdBy: { _id: string; fullName: string } | string;
+}
+
 export interface Vehicle {
   _id: string;
   serialNumber: string;
   vehicleType: VehicleType;
   companyBrand: string;
+  modelNumber?: string;
   registrationNumber: string;
-  engineNumber: string;
-  chassisNumber: string;
+  engineNumber?: string;
+  chassisNumber?: string;
+  kmDriven?: number;
+  description?: string;
   ownerId: Owner;
   dropOffPersonId?: Person;
   pickUpPersonId?: Person;
@@ -71,6 +84,11 @@ export interface Vehicle {
   status: VehicleStatus;
   stationId: Station;
   documents: VehicleDocument[];
+  advancePayment: number;
+  payments: Payment[];
+  nextServiceDate?: string;
+  serviceReminderDate?: string;
+  serviceReminderStatus?: 'pending' | 'completed';
   createdBy: User | string;
   updatedBy?: User | string;
   createdAt: string;

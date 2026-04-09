@@ -175,8 +175,39 @@ class ApiClient {
     return response.data;
   }
 
+  async reactivateUser(id: string) {
+    const response = await this.client.patch(`/users/${id}/reactivate`);
+    return response.data;
+  }
+
+  async getStationStats(stationId: string) {
+    const response = await this.client.get('/vehicles/stats/dashboard', { params: { stationId } });
+    return response.data;
+  }
+
   // Report methods
-  async exportDailyRegister(params: { format: 'pdf' | 'excel'; date?: string; stationId?: string }) {
+  // Reminder methods
+  async getReminderCount() {
+    const response = await this.client.get('/reminders/count');
+    return response.data;
+  }
+
+  async getReminders(type: 'today' | 'upcoming' | 'completed') {
+    const response = await this.client.get('/reminders', { params: { type } });
+    return response.data;
+  }
+
+  async updateReminder(vehicleId: string, action: 'complete' | 'snooze_2h' | 'snooze_1d' | 'snooze_custom', snoozeDate?: string) {
+    const response = await this.client.patch(`/reminders/${vehicleId}`, { action, snoozeDate });
+    return response.data;
+  }
+
+  async addPayment(vehicleId: string, amount: number, description: string) {
+    const response = await this.client.post(`/vehicles/${vehicleId}/payments`, { amount, description });
+    return response.data;
+  }
+
+  async exportDailyRegister(params: { format: 'pdf' | 'excel'; dateFrom?: string; dateTo?: string; stationId?: string }) {
     const response = await this.client.get('/reports/daily-register', {
       params,
       responseType: 'blob',

@@ -26,7 +26,7 @@ export function getStatusColor(status: string): string {
   switch (status) {
     case 'pending':
       return 'bg-yellow-100 text-yellow-800';
-    case 'in_service':
+    case 'completed':
       return 'bg-blue-100 text-blue-800';
     case 'delivered':
       return 'bg-green-100 text-green-800';
@@ -39,12 +39,20 @@ export function getStatusLabel(status: string): string {
   switch (status) {
     case 'pending':
       return 'Pending';
-    case 'in_service':
-      return 'In Service';
+    case 'completed':
+      return 'Completed';
     case 'delivered':
       return 'Delivered';
     default:
       return status;
+  }
+}
+
+export function getVehicleTypeLabel(type: string): string {
+  switch (type) {
+    case 'gear': return 'Gear Bike';
+    case 'non_gear': return 'Non-Gear Bike';
+    default: return type;
   }
 }
 
